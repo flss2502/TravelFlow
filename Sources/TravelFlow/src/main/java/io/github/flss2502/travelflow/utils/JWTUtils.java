@@ -95,7 +95,7 @@ public class JWTUtils {
     private String generateToken(JWTClaimsSet claimsSet) {
         try {
             JWSObject jwsObject = new JWSObject(new JWSHeader(JWSAlgorithm.HS256), new Payload(claimsSet.toJSONObject()));
-            log.info("Signing token with secret: {}", secret);
+        
             byte[] key = secret.getBytes(StandardCharsets.UTF_8);
             if (key.length < 32) {
                 key = Arrays.copyOf(key, 32);
@@ -149,6 +149,4 @@ public class JWTUtils {
     public void logout(String token) {
         redisTemplate.opsForValue().set(TOKEN_BLACKLIST_PREFIX + token, true, expiration);
     }
-
-
 }
